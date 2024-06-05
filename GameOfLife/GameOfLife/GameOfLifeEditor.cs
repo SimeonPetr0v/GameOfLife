@@ -1,11 +1,10 @@
-﻿using GameOfLife;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameOfLife
+namespace Conwat_s_Game_of_Life
 {
     public class GameOfLifeEditor : GameOfLifeBase
     {
@@ -31,46 +30,54 @@ namespace GameOfLife
 
         public string PlayerMove(ConsoleKeyInfo key, int sizeOfBoard, int windoWidth)
         {
-            string genReturn = "";
+            string generationToReturn = "";
 
             switch (key.Key)
             {
                 case ConsoleKey.LeftArrow:
                     if (cursorPositionX - 2 > 0)
-                        Console.SetCursorPosition(cursorPositionX -= 2, cursorPositionY); 
-                    
+                    {
+                        Console.SetCursorPosition(cursorPositionX -= 2, cursorPositionY);
+                        //cellPositionY--;
+                    }
                     break;
 
                 case ConsoleKey.RightArrow:
                     if (cursorPositionX + 2 < CurrentCellGeneration.GetLength(1) - 1)
-                        Console.SetCursorPosition(cursorPositionX += 2, cursorPositionY);  
-                    
+                    {
+                        Console.SetCursorPosition(cursorPositionX += 2, cursorPositionY);
+                        //cellPositionY++;
+                    }
                     break;
 
                 case ConsoleKey.UpArrow:
                     if (cursorPositionY - 1 > 0)
-                        Console.SetCursorPosition(cursorPositionX, cursorPositionY -= 1);  
-                    
+                    {
+                        Console.SetCursorPosition(cursorPositionX, cursorPositionY -= 1);
+                        //cellPositionY--;
+                    }
                     break;
 
                 case ConsoleKey.DownArrow:
                     if (cursorPositionX + 2 < CurrentCellGeneration.GetLength(1) - 1)
+                    {
                         Console.SetCursorPosition(cursorPositionX, cursorPositionY += 1);
-                    
+                        //cellPositionY++;
+                    }
                     break;
 
                 case ConsoleKey.Spacebar:
                     ToggleCurrentCellState();
-                    genReturn = Draw(sizeOfBoard, windoWidth);
+                    generationToReturn = Draw(sizeOfBoard, windoWidth);
                     break;
 
                 case ConsoleKey.Enter:
                     ClearBoard();
-                    genReturn = Draw(sizeOfBoard, windoWidth);
+                    generationToReturn = Draw(sizeOfBoard, windoWidth);
                     break;
 
                 default:
-                    genReturn = Draw(sizeOfBoard, windoWidth);
+                    generationToReturn = Draw(sizeOfBoard, windoWidth);
                     break;
             }
 
@@ -78,16 +85,19 @@ namespace GameOfLife
             cellPositionY = cursorPositionX / 2;
             cellPositionX = cursorPositionY;
 
-            return genReturn;
+            return generationToReturn;
         }
 
         private void ToggleCurrentCellState()
         {
             if (CurrentCellGeneration[cellPositionX, cellPositionY] == 1)
+            {
                 CurrentCellGeneration[cellPositionX, cellPositionY] = 0;
-            
+            }
             else
+            {
                 CurrentCellGeneration[cellPositionX, cellPositionY] = 1;
+            }
 
             Console.SetCursorPosition(cursorPositionX, cursorPositionY);
         }
@@ -97,7 +107,9 @@ namespace GameOfLife
             for (int row = 0; row < CurrentCellGeneration.GetLength(0); row++)
             {
                 for (int col = 0; col < CurrentCellGeneration.GetLength(1); col++)
+                {
                     CurrentCellGeneration[row, col] = 0;
+                }
             }
         }
 

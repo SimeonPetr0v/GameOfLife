@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameOfLife
+namespace Conwat_s_Game_of_Life
 {
     public class GameOfLifeBase
     {
@@ -68,7 +68,7 @@ namespace GameOfLife
             stringBuilder.AppendLine(new String('=', windowWidth));
         }
 
-        public void SpawnNextGeneration()
+        public void SwapNextGeneration()
         {
             for (int row = 0; row < NextCellGeneration.GetLength(0); row++)
             {
@@ -77,13 +77,21 @@ namespace GameOfLife
                     int liveNeighbours = CalculateLiveNeighbours(row, col);
 
                     if (CurrentCellGeneration[row, col] == 1 && liveNeighbours < 2)
-                        NextCellGeneration[row, col] = 0; 
-                    else if (CurrentCellGeneration[row, col] == 1 && liveNeighbours > 3)
+                    {
                         NextCellGeneration[row, col] = 0;
+                    }
+                    else if (CurrentCellGeneration[row, col] == 1 && liveNeighbours > 3)
+                    {
+                        NextCellGeneration[row, col] = 0;
+                    }
                     else if (CurrentCellGeneration[row, col] == 0 && liveNeighbours == 3)
+                    {
                         NextCellGeneration[row, col] = 1;
+                    }
                     else
+                    {
                         NextCellGeneration[row, col] = CurrentCellGeneration[row, col];
+                    }
                 }
             }
 
@@ -96,8 +104,9 @@ namespace GameOfLife
             for (int row = 0; row < CurrentCellGeneration.GetLength(0); row++)
             {
                 for (int col = 0; col < CurrentCellGeneration.GetLength(1); col++)
+                {
                     CurrentCellGeneration[row, col] = NextCellGeneration[row, col];
-                
+                }
             }
         }
 
@@ -110,8 +119,9 @@ namespace GameOfLife
                 for (int neighbourCellColl = -1; neighbourCellColl <= 1; neighbourCellColl++)
                 {
                     if (IsOutOfBoundariesOrSameCell(cellRow, cellCol, neighbourCellRow, neighbourCellColl))
+                    {
                         continue;
-                    
+                    }
 
                     liveNeighbours += CurrentCellGeneration[cellRow + neighbourCellRow, cellCol + neighbourCellColl];
                 }
@@ -123,16 +133,19 @@ namespace GameOfLife
         private bool IsOutOfBoundariesOrSameCell(int cellRow, int cellCol, int neighbourCellRow, int neighbourCellCol)
         {
             if (cellRow + neighbourCellRow < 0 || cellRow + neighbourCellRow >= CurrentCellGeneration.GetLength(0))
+            {
                 return true;
-            
+            }
 
-            if (cellCol + neighbourCellCol < 0 || cellCol + neighbourCellCol >= CurrentCellGeneration.GetLength(1))
+            if (cellCol + neighbourCellCol < 0 || cellCol + neighbourCellCol >= CurrentCellGeneration.GetLength(0))
+            {
                 return true;
-            
+            }
 
             if (cellRow + neighbourCellRow == cellRow && cellCol + neighbourCellCol == cellCol)
+            {
                 return true;
-            
+            }
 
             return false;
         }
